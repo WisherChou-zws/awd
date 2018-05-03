@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>注册</title>
+  <style>
+    form{ width: 200px; float: left; }
+    form input { width: 100%; height: 30px; }
+    form input[type='radio'] { width: auto; }
+    button{ width: 100%; }
+  </style>
+</head>
+<body>
+  <form id="form1" action="./php/upload.php" method="post" enctype="multipart/form-data">
+    <input type="text" name="name" value="bbbbbb" placeholder="请输入名称" />
+    <input type="password" name="password" value="bbbbbb" placeholder="请输入密码" autocomplete="off" />
+    <input type="number" maxlength="11" name="phone" value="13212321221" placeholder="请输入手机号" autocomplete="tel-national" />
+    <input type="file" value="" name="file" id="upload_txt" />
+    <button type="submit">submit提交</button>
+    <button type="button" id="upload_btn">提交</button>
+    <input type="hidden" name="avatar" value="" />
+    <input type="radio" name="sex" value="0" checked="true" />男
+    <input type="radio" name="sex" value="1" />女
+    <button type="button" id="submit_btn">提交</button>
+  </form>
+
+  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    let submit_btn = document.getElementById('submit_btn')
+    submit_btn.onclick = function () {
+      $.ajax({
+        url: './php/register.php',
+        type: 'POST',
+        dataType: 'json',
+        data: $('#form1').serialize(),
+        complete: function(xhr, textStatus) {
+          //called when complete
+        },
+        success: function(data, textStatus, xhr) {
+          //called when successful
+          alert(data.msg)
+          console.log(data)
+        },
+        error: function(xhr, textStatus, errorThrown) {
+          //called when there is an error
+          alert(data.msg)
+          console.log(xhr, textStatus, errorThrown)
+        }
+      });
+    }
+    let upload_btn = document.getElementById('upload_btn')
+    upload_btn.onclick = function () {
+      $.ajax({
+        url: './php/upload.php',
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'multipart/form-data;boundary=a',
+        data: {file: $('#upload_txt').val()},
+        complete: function(xhr, textStatus) {
+          //called when complete
+        },
+        success: function(data, textStatus, xhr) {
+          //called when successful
+          console.log(data)
+        },
+        error: function(xhr, textStatus, errorThrown) {
+          //called when there is an error
+          console.log(xhr, textStatus, errorThrown)
+        }
+      });
+    }
+  </script>
+</body>
+</html>
